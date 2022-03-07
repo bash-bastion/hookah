@@ -39,13 +39,18 @@ util.run() {
 util.show_help() {
 	cat <<"EOF"
 Usage:
-   hookah [--help] <subcommand> [args...]
+  hookah [--help] <subcommand> [args...]
+
 Subcommands:
-   setup
-      Setup the hooks directory if it doesn't exist and execute sanity checks against the hooks (is readable, executable, shebangs, etc.)
-   check
-      Checks to ensure that the hooks directory is setup correctly
-   create
-      Menu to create one of the various Git hooks
+  init
+    Initializes the hooks directory or updates it if it already exists
+
+  new
+    Opens a menu for creating a new Git hook. Once chosen, a corresponding
+    minimal hook template will be created in the hooks directory
+
+  check
+    Run sanity checks in the hooks directory. It ensures the scripts are
+    readable, executable, has the proper shabangs, and other things
 EOF
 }

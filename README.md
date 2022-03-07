@@ -7,15 +7,15 @@ An elegantly minimal solution for Git hooks
 ```sh
 cd some-git-repo-that-uses-hookah
 hookah init
-# And you're done!
+# Boom! You're done
 ```
-
-- To update internal Hookah scripts, simply run `init` again (a message will be printed if anything has been updated)
 
 ## Features
 
+- Simply run `init` again to update the Hookah scripts (a message will be printed if anything has been updated)
 - Has `check` subcommand to test if scripts will work _before_ running Git
 - Has `create` subcommand to list all templates and how they work
+- _No configuration_
 
 ## Installation
 

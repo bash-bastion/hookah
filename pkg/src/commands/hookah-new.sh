@@ -1,10 +1,17 @@
 # shellcheck shell=bash
 
-hookah-create() {
+hookah-new() {
+	local hook_name="$1"
+
 	local -r hooks_dir='./.hooks'
+	local -r hookah_dir="$hooks_dir/.hookah"
 
 	if ! util.cd_to_closest_git_repo; then
 		print.die "Failed to 'cd' to closest Git repository"
+	fi
+
+	if [ ! -d "$hookah_dir" ]; then
+		print.die "Hookah directory does not exist. Did you forget to run 'hookah init'?"
 	fi
 
 	# post-update undocumented?
@@ -35,32 +42,37 @@ hookah-create() {
 		[post-receive]=
 	)
 
-	printf '%s\n' "Hooks: "
-	local hook=
-	for hook in "${!hooks[@]}"; do
-		printf '%s\n' "   $hook: ${hooks[$hook]}"
-	done; unset -v hook
+	if [ -z "$hook_name" ]; then
+		printf '%s\n' "Hooks: "
+		local hook=
+		for hook in "${!hooks[@]}"; do
+			printf '%s\n' "   $hook: ${hooks[$hook]}"
+		done; unset -v hook
 
-	printf '%s' 'Choose: '
-	read -re
-
-	local user_hook="$REPLY"
-	# TODO
-	if [[ ${!hooks[*]} != *"$user_hook"* ]]; then
-		print.die "Did not enter valid commit hook"
+		printf '%s' 'Choose: '
+		read -re hook_name
 	fi
 
-	if [ -z "$user_hook" ]; then
+	if [ -z "$hook_name" ]; then
 		print.die "Cannot be empty"
 	fi
 
-	# TODO: hardcoded lib.sh
-	cat > "$hooks_dir/$user_hook.sh" <<-"EOF"
+	local is_valid_hook='no' valid_hook_name=
+	for valid_hook_name in "${!hooks[@]}"; do
+		if [ "$valid_hook_name" = "$hook_name" ]; then
+			is_valid_hook='yes'
+		fi
+	done
+	if [ "$is_valid_hook" != 'yes' ]; then
+		print.die "Did not enter valid commit hook"
+	fi
+
+	cat > "$hooks_dir/$hook_name" <<-"EOF"
 	#!/usr/bin/env bash
 
 	source "${0%/*}/.hookah/lib.sh"
 	hookah.init
 
 	EOF
-	chmod +x "$hooks_dir/$user_hook.sh"
+	chmod +x "$hooks_dir/$hook_name"
 }

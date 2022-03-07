@@ -21,6 +21,8 @@ hookah-check() {
 			print.hint "You may need to \`chmod +x '$hookFile'\`"
 		fi
 
+		# TODO: Instead of disallow-list type fltering, create an allow-list of
+		# valid script/hook names
 		if [[ $line == *.* ]]; then
 			print.warn "File should not have an excention"
 			print.hint "For example, the hook 'pre-commit' should be at './hooks/pre-commit'"
@@ -51,4 +53,6 @@ hookah-check() {
 		# Do not place anything under here unless 'continue's are placed in the
 		# previous if-elif branches
 	done; unset -v hookFile
+
+	printf '%s\n' 'Done.'
 }

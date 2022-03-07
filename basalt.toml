@@ -7,7 +7,7 @@ authors = ['Edwin Kofler <edwin@kofler.dev>']
 description = 'A hook helper for Git'
 
 [run]
-dependencies = ['https://github.com/hyperupcall/bats-all.git@v4.3.0']
+dependencies = ['https://github.com/hyperupcall/bash-core.git@v0.3.2', 'https://github.com/hyperupcall/bats-all.git@v4.3.0']
 binDirs = []
 sourceDirs = ['pkg/src/util', 'pkg/src/commands']
 builtinDirs = []

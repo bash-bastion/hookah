@@ -1,7 +1,14 @@
 # shellcheck shell=bash
 
+global_trap_exit() {
+	local exit_code=$?
+	core.stacktrace_print
+	exit $exit_code
+}
+
 main.hookah() {
-	local subcommand="$1"
+	core.init
+	core.trap_add 'global_trap_exit' ERR
 
 	local arg=
 	for arg; do case $arg in
@@ -11,14 +18,15 @@ main.hookah() {
 		;;
 	esac done; unset -v arg
 
+	local subcommand="$1"
 	case $subcommand in
 	init)
 		if ! shift; then print.die 'Failed shift'; fi
 		hookah-init "$@"
 		;;
-	create)
+	new)
 		if ! shift; then print.die 'Failed shift'; fi
-		hookah-create "$@"
+		hookah-new "$@"
 		;;
 	check)
 		if ! shift; then print.die 'Failed shift'; fi
