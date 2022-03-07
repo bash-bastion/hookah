@@ -8,6 +8,6 @@ Current solutions include [overcommit](https://github.com/sds/overcommit), [husk
 
 Both overcommit and pre-commit are unecessarily complex
 
-Husky is a step in the right direction, but there are things I don't like. The wrapper script sources a `~/.huskyrc` and everything is written in NodeJS unnecessarily
+Husky is a step in the right direction, but there are things I don't like. The wrapper script sources a `~/.huskyrc` and everything is written in NodeJS unnecessarily. Also, it incorrectly creates scripts with a shebang even though it only executes through `sh` (which could be different on different machines)
 
 Hookah is a simple solution that makes it easy to ensure all developers of a particular project are using Git hooks
