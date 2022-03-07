@@ -1,46 +1,12 @@
 # shellcheck shell=bash
 
-hookah-setup() {
+hookah-check() {
 	local -r hooks_dir='./.hooks'
-	local -r hookah_dir="$hooks_dir/.hookah"
-	local -r libfile="$hookah_dir/lib.sh"
-	# TODO: script for this repo to ensure the verison numbers are the same as in './share/lib.sh'
-	local -r libfile_version='0.1.2'
 
-	if ! cd_to_closest_git_repo; then
+	if ! util.cd_to_closest_git_repo; then
 		print.die "Failed to 'cd' to closest Git repository"
 	fi
 
-	print.info "Settings Git config 'core.hooksPath' to '$hooks_dir'"
-	if ! git config --local core.hooksPath "$hooks_dir"; then
-		print.error "Failed to set configuration property"
-		print.hint "Please file an issue at 'https://github.com/hyperupcall/hookah'"
-		exit 1
-	fi
-
-	if ! mkdir -p "$hookah_dir"; then
-		print.error "Failed to 'mkdir'"
-		print.hint "Both '$hookah_dir' and '${hookah_dir%/*}' should either be directories or non-existant"
-		exit 1
-	fi
-
-	# Create library file
-	if [ -f "$libfile" ]; then
-		read_line_n "$libfile" 2
-		local old_version="${REPLY##* }"
-
-		if [ "$old_version" != "$libfile_version" ]; then
-			print.hint "Updating library file: $old_version -> $libfile_version"
-		fi
-	else
-		print.info "Creating library file"
-	fi
-
-	if ! cp -f "$BASALT_PACKAGE_DIR/pkg/src/share/lib.sh" "$libfile"; then
-		print.die "Failed to write to '$libfile'"
-	fi
-
-	# Ensure all scripts are runnable
 	local hookFile=
 	for hookFile in "$hooks_dir"/*; do
 		if [ ! -r "$hookFile" ]; then
@@ -53,15 +19,16 @@ hookah-setup() {
 		if [ ! -x "$hookFile" ]; then
 			print.warn "File '$hookFile' is not set as executable"
 			print.hint "You may need to \`chmod +x '$hookFile'\`"
-			continue
 		fi
 
-		# TODO: SELinux
-		# TODO: ensure it doesn't have a .sh or .bash extension
+		if [[ $line == *.* ]]; then
+			print.warn "File should not have an excention"
+			print.hint "For example, the hook 'pre-commit' should be at './hooks/pre-commit'"
+		fi
 
-		read_line_n "$hookFile" 1
-		local line=$REPLY
-		local arguments="${line#* }"
+		util.read_line_n "$hookFile" 1
+		local line=$REPLY; local arguments="${line#* }"
+
 		if [ -z "$line" ]; then
 			print.warn "File '$hookFile' must have a shebang"
 			print.hint "You may need to \`printf '%s\n' '#!/usr/bin/env bash'\`"

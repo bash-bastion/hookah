@@ -1,27 +1,36 @@
 # shellcheck shell=bash
 
-check() {
-	printf '%s\n' "$1"
-}
-
 main.hookah() {
 	local subcommand="$1"
 
-	if [[ $* == *-h* ]]; then
-		cat <<-"EOF"
-		Subcommands:
-		   setup
-		      Setup the hooks directory if it doesn't exist and execute sanity checks against the hooks (is readable, executable, shebangs, etc.)
-		   create
-		      Menu to create one of the various Git hooks
-		EOF
-		exit
-	fi
+	local arg=
+	for arg; do case $arg in
+	-h|--help)
+		util.show_help
+		exit 0
+		;;
+	esac done; unset -v arg
 
-	if [ -z "$subcommand" ]; then
-		print.die "No subcommand passed"
-	fi
-
-	# TODO
-	hookah-"$subcommand"
+	case $subcommand in
+	init)
+		if ! shift; then print.die 'Failed shift'; fi
+		hookah-init "$@"
+		;;
+	create)
+		if ! shift; then print.die 'Failed shift'; fi
+		hookah-create "$@"
+		;;
+	check)
+		if ! shift; then print.die 'Failed shift'; fi
+		hookah-check "$@"
+		;;
+	*)
+		if [ -n "$subcommand" ]; then
+			print.die "Subcommand '$1' is not valid"
+		else
+			util.show_help
+			print.die 'No subcommand passed'
+		fi
+		;;
+	esac
 }

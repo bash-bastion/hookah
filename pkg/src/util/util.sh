@@ -1,6 +1,6 @@
 # shellcheck shell=bash
 
-cd_to_closest_git_repo() {
+util.cd_to_closest_git_repo() {
 	while [ ! -d '.git' ] && [ "$PWD" != / ]; do
 		if ! cd ..; then
 			return 1
@@ -12,7 +12,7 @@ cd_to_closest_git_repo() {
 	fi
 }
 
-read_line_n() {
+util.read_line_n() {
 	unset REPLY; REPLY=
 	local file="$1"
 	local -i line_number="$2"
@@ -29,23 +29,23 @@ read_line_n() {
 	done < "$file"; unset -v line
 }
 
-print.die() {
-	printf '%s\n' "Error: $1. Exiting"
-	exit 1
+util.run() {
+	printf '%s\n' "Running: $*"
+	if "$@"; then :; else
+		return 1
+	fi
 }
 
-print.error() {
-	printf '%s\n' "Error: $1. Exiting"
-}
-
-print.warn() {
-	printf '%s\n' "Warn: $1"
-}
-
-print.info() {
-	printf '%s\n' "Info: $1"
-}
-
-print.hint() {
-	printf '%s\n' "  -> $1"
+util.show_help() {
+	cat <<"EOF"
+Usage:
+   hookah [--help] <subcommand> [args...]
+Subcommands:
+   setup
+      Setup the hooks directory if it doesn't exist and execute sanity checks against the hooks (is readable, executable, shebangs, etc.)
+   check
+      Checks to ensure that the hooks directory is setup correctly
+   create
+      Menu to create one of the various Git hooks
+EOF
 }

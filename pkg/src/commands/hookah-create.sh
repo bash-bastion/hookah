@@ -1,10 +1,11 @@
 # shellcheck shell=bash
 
 hookah-create() {
-	# TODO: not dry
 	local -r hooks_dir='./.hooks'
-	local -r hookah_dir="$hooks_dir/.hookah"
-	local -r libfile="$hookah_dir/lib.sh"
+
+	if ! util.cd_to_closest_git_repo; then
+		print.die "Failed to 'cd' to closest Git repository"
+	fi
 
 	# post-update undocumented?
 	# TODO: figure out where these hooks come from: https://github.com/rycus86/githooks#supported-hooks
