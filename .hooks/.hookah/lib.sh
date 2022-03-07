@@ -62,7 +62,7 @@ __hookah_is_color() {
 
 # @internal
 __hookah_internal_error() {
-	printf '%s\n' "Internal Error: $1"
+	printf '%s\n' "Internal Error: $1" >&2
 }
 
 # @internal

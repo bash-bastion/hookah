@@ -1,5 +1,7 @@
 # hookah
 
+STATUS: In development
+
 An elegantly minimal solution for Git hooks
 
 ## Usage
@@ -16,6 +18,7 @@ hookah init
 - Has `check` subcommand to test if scripts will work _before_ running Git
 - Has `create` subcommand to list all templates and how they work
 - _No configuration_
+- Language agnostic (ex. not tied to npm's `postinstall`)
 
 ## Installation
 
@@ -24,7 +27,3 @@ Use [Basalt](https://github.com/hyperupcall/basalt), a Bash package manager, to 
 ```sh
 basalt global add hyperupcall/hookah
 ```
-
-## Roadmap
-
-- Fix Stacktrace

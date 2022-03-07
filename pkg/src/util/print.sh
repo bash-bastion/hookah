@@ -1,12 +1,12 @@
 # shellcheck shell=bash
 
 print.die() {
-	printf '%s\n' "Error: $1. Exiting"
+	printf '%s\n' "Error: $1. Exiting" >&2
 	exit 1
 }
 
 print.error() {
-	printf '%s\n' "Error: $1. Exiting"
+	printf '%s\n' "Error: $1. Exiting" >&2
 }
 
 print.warn() {
