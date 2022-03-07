@@ -1,19 +1,30 @@
 # hookah
 
-A simple git-hooks solution
+An elegantly minimal solution for Git hooks
 
-STATUS: IN DEVELOPMENT
+## Usage
 
-Current solutions include [overcommit](https://github.com/sds/overcommit), [husky](https://github.com/typicode/husky), and [pre-commit](https://github.com/pre-commit/pre-commit)
+```sh
+cd some-git-repo-that-uses-hookah
+hookah init
+# And you're done!
+```
 
-Both overcommit and pre-commit are unecessarily complex
+- To update internal Hookah scripts, simply run `init` again (a message will be printed if anything has been updated)
 
-Husky is a step in the right direction, but there are things I don't like. The wrapper script sources a `~/.huskyrc` and everything is written in NodeJS unnecessarily. Also, it incorrectly creates scripts with a shebang even though it only executes through `sh` (which could be different on different machines)
+## Features
 
-Hookah is a simple solution that makes it easy to ensure all developers of a particular project are using Git hooks
+- Has `check` subcommand to test if scripts will work _before_ running Git
+- Has `create` subcommand to list all templates and how they work
+
+## Installation
+
+Use [Basalt](https://github.com/hyperupcall/basalt), a Bash package manager, to install this project globally
+
+```sh
+basalt global add hyperupcall/hookah
+```
 
 ## Roadmap
 
-- SELinux
-- Stacktrace
-- Fixups
+- Fix Stacktrace
