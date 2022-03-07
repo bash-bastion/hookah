@@ -47,5 +47,5 @@ print.info() {
 }
 
 print.hint() {
-	printf '%s\n' "--> $1"
+	printf '%s\n' "  -> $1"
 }

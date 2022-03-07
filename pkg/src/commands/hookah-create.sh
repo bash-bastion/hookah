@@ -61,4 +61,5 @@ hookah-create() {
 	hookah.init
 
 	EOF
+	chmod +x "$hooks_dir/$user_hook.sh"
 }

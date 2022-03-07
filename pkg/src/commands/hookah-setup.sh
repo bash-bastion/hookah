@@ -54,7 +54,7 @@ EOF
 	# Ensure all scripts are runnable
 	local hookFile=
 	for hookFile in "$hooks_dir"/*; do
-		if [ -r "$hookFile" ]; then
+		if [ ! -r "$hookFile" ]; then
 			print.warn "File '$hookFile' is not readable"
 			print.hint "You may need to \`chmod +r '$hookFile'\`"
 			print.hint "You may need to \`chown $USER:$USER '$hookFile'\`"

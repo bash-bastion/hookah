@@ -9,7 +9,7 @@ description = 'A hook helper for Git'
 [run]
 dependencies = []
 binDirs = []
-sourceDirs = ['pkg/src', 'pkg/src/commands']
+sourceDirs = ['pkg/src/util', 'pkg/src/commands']
 builtinDirs = []
 completionDirs = []
 manDirs = []
