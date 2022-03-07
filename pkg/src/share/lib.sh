@@ -50,6 +50,7 @@ __hookah_trap_err() {
 	exit $error_code
 } >&2
 
+# TODO: fix (broken)
 __hookah_print_stacktrace() {
 	if __hookah_is_color; then
 		printf '\033[4m%s\033[0m\n' 'Stacktrace:'

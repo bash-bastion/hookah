@@ -4,7 +4,8 @@ hookah-setup() {
 	local -r hooks_dir='./.hooks'
 	local -r hookah_dir="$hooks_dir/.hookah"
 	local -r libfile="$hookah_dir/lib.sh"
-	local -r libfile_version='0.1.1'
+	# TODO: script for this repo to ensure the verison numbers are the same as in './share/lib.sh'
+	local -r libfile_version='0.1.2'
 
 	if ! cd_to_closest_git_repo; then
 		print.die "Failed to 'cd' to closest Git repository"
@@ -35,19 +36,7 @@ hookah-setup() {
 		print.info "Creating library file"
 	fi
 
-	if ! cat > "$libfile" <<EOF; then
-# shellcheck shell=bash
-# Version: $libfile_version
-#
-hookah.init() {
-	printf '%s\n' "Hookah: Running ${BASH_SOURCE[1]##*/}"
-}
-
-hookah.run() {
-	printf '%s\n' "Hookah: Running command: '\$*'"
-	"\$@"
-}
-EOF
+	if ! cp -f "$BASALT_PACKAGE_DIR/pkg/src/share/lib.sh" "$libfile"; then
 		print.die "Failed to write to '$libfile'"
 	fi
 
