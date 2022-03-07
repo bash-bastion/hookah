@@ -55,7 +55,7 @@ hookah-create() {
 
 	# TODO: hardcoded lib.sh
 	cat > "$hooks_dir/$user_hook.sh" <<-"EOF"
-	# shellcheck shell=bash
+	#!/usr/bin/env bash
 
 	source "${0%/*}/.hookah/lib.sh"
 	hookah.init

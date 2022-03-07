@@ -68,6 +68,7 @@ EOF
 		fi
 
 		# TODO: SELinux
+		# TODO: ensure it doesn't have a .sh or .bash extension
 
 		read_line_n "$hookFile" 1
 		local line=$REPLY
@@ -82,7 +83,7 @@ EOF
 			check "File '$hookFile' does not have a proper shebang"
 			print.hint "Shebangs should be absolute paths"
 			print.hint "You may need to \`printf '%s\n' '#!/usr/bin/env bash'\`"
-		elif [[ $line != \#!/usr/bin/env ]]; then
+		elif [[ $line != \#!/usr/bin/env* ]]; then
 			print.warn "Shebang must point to /usr/bin/env"
 			print.hint "Users of NixOS require this"
 		elif [[ $arguments == *[\ -]* ]]; then
