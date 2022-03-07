@@ -1,5 +1,4 @@
 # shellcheck shell=bash
-# shellcheck shell=bash
 # Version: 0.1.2
 
 # @file lib.sh
