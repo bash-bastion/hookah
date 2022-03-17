@@ -20,9 +20,9 @@ main.hookah() {
 
 	local subcommand="$1"
 	case $subcommand in
-	init)
+	refresh)
 		if ! shift; then print.die 'Failed shift'; fi
-		hookah-init "$@"
+		hookah-refresh "$@"
 		;;
 	new)
 		if ! shift; then print.die 'Failed shift'; fi

@@ -30,9 +30,18 @@ util.read_line_n() {
 }
 
 util.run() {
-	printf '%s\n' "Running: $*"
+	print.exec "$*"
+
 	if "$@"; then :; else
+		return $?
+	fi
+}
+
+util.should_print_color() {
+	if [[ -v NO_COLOR || $TERM == dumb ]]; then
 		return 1
+	else
+		return 0
 	fi
 }
 
@@ -42,7 +51,7 @@ Usage:
   hookah [--help] <subcommand> [args...]
 
 Subcommands:
-  init
+  refresh
     Initializes the hooks directory or updates it if it already exists
 
   new

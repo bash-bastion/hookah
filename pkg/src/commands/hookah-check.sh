@@ -11,14 +11,14 @@ hookah-check() {
 	for hookFile in "$hooks_dir"/*; do
 		if [ ! -r "$hookFile" ]; then
 			print.warn "File '$hookFile' is not readable"
-			print.hint "You may need to \`chmod +r '$hookFile'\`"
-			print.hint "You may need to \`chown $USER:$USER '$hookFile'\`"
+			print.hint "You may need to \"chmod +r '$hookFile'\""
+			print.hint "You may need to \"chown $USER:$USER '$hookFile'\""
 			continue
 		fi
 
 		if [ ! -x "$hookFile" ]; then
 			print.warn "File '$hookFile' is not set as executable"
-			print.hint "You may need to \`chmod +x '$hookFile'\`"
+			print.hint "You may need to \"chmod +x '$hookFile'\""
 		fi
 
 		# TODO: Instead of disallow-list type fltering, create an allow-list of
@@ -33,14 +33,14 @@ hookah-check() {
 
 		if [ -z "$line" ]; then
 			print.warn "File '$hookFile' must have a shebang"
-			print.hint "You may need to \`printf '%s\n' '#!/usr/bin/env bash'\`"
+			print.hint "You may need to \"printf '%s\n' '#!/usr/bin/env bash'\""
 		elif [[ $line != \#!* ]]; then
 			check "File '$hookFile' does not have a shebang"
-			print.hint "You may need to \`printf '%s\n' '#!/usr/bin/env bash'\`"
+			print.hint "You may need to \"printf '%s\n' '#!/usr/bin/env bash'\""
 		elif [[ $line != \#!/* ]]; then
 			check "File '$hookFile' does not have a proper shebang"
 			print.hint "Shebangs should be absolute paths"
-			print.hint "You may need to \`printf '%s\n' '#!/usr/bin/env bash'\`"
+			print.hint "You may need to \"printf '%s\n' '#!/usr/bin/env bash'\""
 		elif [[ $line != \#!/usr/bin/env* ]]; then
 			print.warn "Shebang must point to /usr/bin/env"
 			print.hint "Users of NixOS require this"
@@ -54,5 +54,5 @@ hookah-check() {
 		# previous if-elif branches
 	done; unset -v hookFile
 
-	printf '%s\n' 'Done.'
+	print.info 'Done.'
 }

@@ -2,7 +2,7 @@
 
 # TODO: script for this repo to ensure the verison numbers are the same as in './share/lib.sh'
 
-hookah-init() {
+hookah-refresh() {
 	local -r hooks_dir='./.hooks'
 	local -r hookah_dir="$hooks_dir/.hookah"
 	local -r lib_version='0.1.0'
@@ -29,7 +29,7 @@ hookah-init() {
 		local old_version="${REPLY##* }"
 
 		if [ "$old_version" != "$lib_version" ]; then
-			print.hint "Updating library file: $old_version -> $lib_version"
+			print.info "Updating library file: $old_version -> $lib_version"
 		fi
 	else
 		print.info "Creating library file"

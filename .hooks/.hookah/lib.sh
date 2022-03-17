@@ -30,6 +30,15 @@ hookah.init() {
 		return 1
 	fi
 
+	# Prevent bugs like:
+	# - https://github.com/typicode/husky/issues/627
+	# - https://github.com/yarnpkg/yarn/issues/743
+	# - https://github.com/typicode/husky/issues/850
+	# - https://github.com/yarnpkg/yarn/issues/2998
+	if command -v &>/dev/null 'winpty' && [ -t 1 ]; then
+		exec </dev/tty
+	fi
+
 	# TODO print large
 	printf '%s\n' "Hookah: Running ${BASH_SOURCE[1]##*/}"
 }
@@ -45,6 +54,95 @@ hookah.run() {
 hookah.run_allow_fail() {
 	if ! hookah.run \$@; then
 		printf '%s\n' "Hookah: Command failed"
+	fi
+}
+
+# @description Tests if currently in CI
+# @exitcode 0 If in CI
+# @exitcode 1 If not in CI
+# @set REPLY Current provider for CI
+hookah.is_ci() {
+	unset -v REPLY; REPLY=
+
+	# See https://github.com/watson/ci-info/blob/master/vendors.json
+	# node -e $'for (const ci of JSON.parse(require("fs").readFileSync("vendors.json"))) { console.info(`\\telif [[ -v \047${ci.env}\047 ]]; then\\n\\t\\tREPLY=\047${ci.name}\047`) }'
+
+	if [[ -v 'APPVEYOR' ]]; then
+		REPLY='AppVeyor'
+	elif [[ -v 'SYSTEM_TEAMFOUNDATIONCOLLECTIONURI' ]]; then
+		REPLY='Azure Pipelines'
+	elif [[ -v 'AC_APPCIRCLE' ]]; then
+		REPLY='Appcircle'
+	elif [[ -v 'bamboo_planKey' ]]; then
+		REPLY='Bamboo'
+	elif [[ -v 'BITBUCKET_COMMIT' ]]; then
+		REPLY='Bitbucket Pipelines'
+	elif [[ -v 'BITRISE_IO' ]]; then
+		REPLY='Bitrise'
+	elif [[ -v 'BUDDY_WORKSPACE_ID' ]]; then
+		REPLY='Buddy'
+	elif [[ -v 'BUILDKITE' ]]; then
+		REPLY='Buildkite'
+	elif [[ -v 'CIRCLECI' ]]; then
+		REPLY='CircleCI'
+	elif [[ -v 'CIRRUS_CI' ]]; then
+		REPLY='Cirrus CI'
+	elif [[ -v 'CODEBUILD_BUILD_ARN' ]]; then
+		REPLY='AWS CodeBuild'
+	elif [[ -v 'CF_BUILD_ID' ]]; then
+		REPLY='Codefresh'
+	elif [[ -v '[object Object]' ]]; then
+		REPLY='Codeship'
+	elif [[ -v 'DRONE' ]]; then
+		REPLY='Drone'
+	elif [[ -v 'DSARI' ]]; then
+		REPLY='dsari'
+	elif [[ -v 'EAS_BUILD' ]]; then
+		REPLY='Expo Application Services'
+	elif [[ -v 'GITHUB_ACTIONS' ]]; then
+		REPLY='GitHub Actions'
+	elif [[ -v 'GITLAB_CI' ]]; then
+		REPLY='GitLab CI'
+	elif [[ -v 'GO_PIPELINE_LABEL' ]]; then
+		REPLY='GoCD'
+	elif [[ -v 'LAYERCI' ]]; then
+		REPLY='LayerCI'
+	elif [[ -v 'HUDSON_URL' ]]; then
+		REPLY='Hudson'
+	elif [[ -v 'JENKINS_URL,BUILD_ID' ]]; then
+		REPLY='Jenkins'
+	elif [[ -v 'MAGNUM' ]]; then
+		REPLY='Magnum CI'
+	elif [[ -v 'NETLIFY' ]]; then
+		REPLY='Netlify CI'
+	elif [[ -v 'NEVERCODE' ]]; then
+		REPLY='Nevercode'
+	elif [[ -v 'RENDER' ]]; then
+		REPLY='Render'
+	elif [[ -v 'SAILCI' ]]; then
+		REPLY='Sail CI'
+	elif [[ -v 'SEMAPHORE' ]]; then
+		REPLY='Semaphore'
+	elif [[ -v 'SCREWDRIVER' ]]; then
+		REPLY='Screwdriver'
+	elif [[ -v 'SHIPPABLE' ]]; then
+		REPLY='Shippable'
+	elif [[ -v 'TDDIUM' ]]; then
+		REPLY='Solano CI'
+	elif [[ -v 'STRIDER' ]]; then
+		REPLY='Strider CD'
+	elif [[ -v 'TASK_ID,RUN_ID' ]]; then
+		REPLY='TaskCluster'
+	elif [[ -v 'TEAMCITY_VERSION' ]]; then
+		REPLY='TeamCity'
+	elif [[ -v 'TRAVIS' ]]; then
+		REPLY='Travis CI'
+	elif [[ -v 'NOW_BUILDER' ]]; then
+		REPLY='Vercel'
+	elif [[ -v 'APPCENTER_BUILD_ID' ]]; then
+		REPLY='Visual Studio App Center'
+	else
+		return 1
 	fi
 }
 
