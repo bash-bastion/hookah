@@ -4,7 +4,7 @@ name = 'hookah'
 slug = 'hookah'
 version = '0.2.0'
 authors = ['Edwin Kofler <edwin@kofler.dev>']
-description = 'A hook helper for Git'
+description = 'An elegantly minimal solution for Git hooks'
 
 [run]
 dependencies = ['https://github.com/hyperupcall/bash-core.git@v0.3.2', 'https://github.com/hyperupcall/bats-all.git@v4.3.0']
