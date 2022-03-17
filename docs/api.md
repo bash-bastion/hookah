@@ -1,8 +1,21 @@
-# lib.sh
+# Hookah lib.sh
+
+Hookah: An elegantly minimal solution for Git hooks
 
 ## Overview
 
-Function library for Git hooks configured with Hookah
+Hookah streamlines the process of managing Git hooks. This file is a
+library of functions that can easily be used by hooks written in Bash. Use it by
+prepending your script with the following
+
+```bash
+#!/usr/bin/env bash
+
+source "${0%/*}/.hookah/lib.sh"
+hookah.init
+```
+
+Learn more about it [on GitHub](https://github.com/hyperupcall/hookah)
 
 ## Index
 
@@ -13,7 +26,7 @@ Function library for Git hooks configured with Hookah
 
 ### hookah.init()
 
-initiates the environment, sets up stacktrace printing on 'ERR' trap,
+Initiates the environment, sets up stacktrace printing on the 'ERR' trap,
 and sets the directory to the root of the Git repository
 
 _Function has no arguments._
@@ -21,15 +34,19 @@ _Function has no arguments._
 ### hookah.run()
 
 Prints a command before running it
+#args $@ Command to execute
 
 ### hookah.run_allow_fail()
 
-Prints a command before running it. If the command fails, print a message,
-but do not abort execution
+Prints a command before running it. But, if the command fails, do not abort execution
+
+#### Arguments
+
+* # @args $@ Command to execute
 
 ### hookah.is_ci()
 
-Tests if currently in CI
+Scans environment variables to determine if script is in a CI environment
 
 #### Variables set
 
