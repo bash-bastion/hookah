@@ -1,11 +1,10 @@
 # shellcheck shell=bash
 
-# TODO: script for this repo to ensure the verison numbers are the same as in './share/lib.sh'
-
 hookah-refresh() {
 	local -r hooks_dir='./.hooks'
 	local -r hookah_dir="$hooks_dir/.hookah"
-	local -r lib_version='0.1.0'
+	util.read_line_n "$BASALT_PACKAGE_DIR/pkg/share/lib.sh" 2
+	local -r lib_version="${REPLY#*: }"
 
 	if ! util.cd_to_closest_git_repo; then
 		print.die "Failed to 'cd' to closest Git repository"
