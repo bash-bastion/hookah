@@ -176,7 +176,7 @@ __hookah_die() {
 
 # @internal
 __hookah_error() {
-	printf '%s\n' "Hookah: lib.sh: Error: $1. Exiting"
+	printf '%s\n' "Hookah: lib.sh: Error: $1. Exiting" >&2
 	exit 1
 }
 
