@@ -3,6 +3,5 @@
 source "${0%/*}/.hookah/lib.sh"
 hookah.init
 
-basalt install
 hookah.run ./bake docs
 hookah.run ./bake test
