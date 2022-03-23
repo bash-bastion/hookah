@@ -54,12 +54,12 @@ Subcommands:
   refresh
     Initializes the hooks directory or updates it if it already exists
 
-  check
-    Run sanity checks in the hooks directory. It ensures the scripts are
-    readable, executable, has the proper shabangs, and other things
-
   new
     Opens a menu for creating a new Git hook. Once chosen, a corresponding
     minimal hook template will be created in the hooks directory
+
+  check
+    Run sanity checks in the hooks directory. It ensures the scripts are
+    readable, executable, has the proper shabangs, and other things
 EOF
 }
