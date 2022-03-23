@@ -50,14 +50,14 @@ hookah.init() {
 }
 
 # @description Prints a command before running it
-# #args $@ Command to execute
+# @arg $@ Command to execute
 hookah.run() {
 	__hookah_exec "$*"
 	"$@"
 }
 
 # @description Prints a command before running it. But, if the command fails, do not abort execution
-# @args $@ Command to execute
+# @arg $@ Command to execute
 hookah.run_allow_fail() {
 	if ! hookah.run "$@"; then
 		hookah.die 'Command failed'

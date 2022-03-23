@@ -37,7 +37,10 @@ _Function has no arguments._
 ### hookah.run()
 
 Prints a command before running it
-#args $@ Command to execute
+
+#### Arguments
+
+* **...** (Command): to execute
 
 ### hookah.run_allow_fail()
 
@@ -45,7 +48,7 @@ Prints a command before running it. But, if the command fails, do not abort exec
 
 #### Arguments
 
-* # @args $@ Command to execute
+* **...** (Command): to execute
 
 ### hookah.die()
 
