@@ -6,7 +6,7 @@ Hookah: An elegantly minimal solution for Git hooks
 
 Hookah streamlines the process of managing Git hooks. This file is a
 library of functions that can easily be used by hooks written in Bash. Use it by
-prepending your script with the following
+prepending your hook script with the following
 
 ```bash
 #!/usr/bin/env bash
@@ -22,6 +22,9 @@ Learn more about it [on GitHub](https://github.com/hyperupcall/hookah)
 * [hookah.init()](#hookahinit)
 * [hookah.run()](#hookahrun)
 * [hookah.run_allow_fail()](#hookahrun_allow_fail)
+* [hookah.die()](#hookahdie)
+* [hookah.warn()](#hookahwarn)
+* [hookah.info()](#hookahinfo)
 * [hookah.is_ci()](#hookahis_ci)
 
 ### hookah.init()
@@ -43,6 +46,31 @@ Prints a command before running it. But, if the command fails, do not abort exec
 #### Arguments
 
 * # @args $@ Command to execute
+
+### hookah.die()
+
+Prints `$1` formatted as an error and the stacktrace to standard error,
+then exits with code 1
+
+#### Arguments
+
+* **$1** (string): Text to print
+
+### hookah.warn()
+
+Prints `$1` formatted as a warning to standard error
+
+#### Arguments
+
+* **$1** (string): Text to print
+
+### hookah.info()
+
+Prints `$1` formatted as information to standard output
+
+#### Arguments
+
+* **$1** (string): Text to print
 
 ### hookah.is_ci()
 

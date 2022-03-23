@@ -1,5 +1,7 @@
 # shellcheck shell=bash
 
+# TODO: Maybe some way to keep this in sync with lib.sh since they are the same
+
 print.die() {
 	print.error "$1. Exiting"
 	exit 1
