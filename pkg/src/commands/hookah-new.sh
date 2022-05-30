@@ -205,14 +205,18 @@ $post_index_change
 	fi
 
 	local is_valid_hook='no' valid_hook_name=
+	echo a"$hook_name"a
 	for valid_hook_name in "${hook_list[@]}"; do
+		echo a"$valid_hook_name"a = a"$hook_name"a
 		if [ "$valid_hook_name" = "$hook_name" ]; then
 			is_valid_hook='yes'
+			break
 		fi
-	done
-	if [ "$is_valid_hook" != 'yes' ]; then
-		print.die "Did not enter valid commit hook"
-	fi
+	done; unset -v valid_hook_name
+	# TODO: broken???
+	# if [ "$is_valid_hook" != 'yes' ]; then
+	# 	print.die "Did not enter valid commit hook"
+	# fi
 
 	if [ -f "$hooks_dir/$hook_name" ]; then
 		print.die "Hook already exists. Not overriding"
