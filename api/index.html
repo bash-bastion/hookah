@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Edwin Kofler" /><link rel="canonical" href="https://hyperupcall.github.io/hookah/api/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Hookah lib.sh - hookah</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Hookah lib.sh";
+        var mkdocs_page_input_path = "api.md";
+        var mkdocs_page_url = "/hookah/api/";
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> hookah
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Hookah</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Hookah lib.sh</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#index">Index</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#hookahinit">hookah.init()</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#hookahrun">hookah.run()</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#arguments">Arguments</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#hookahrun_allow_fail">hookah.run_allow_fail()</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#arguments_1">Arguments</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#hookahdie">hookah.die()</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#arguments_2">Arguments</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#hookahwarn">hookah.warn()</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#arguments_3">Arguments</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#hookahinfo">hookah.info()</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#arguments_4">Arguments</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#hookahis_ci">hookah.is_ci()</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#variables-set">Variables set</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#exit-codes">Exit codes</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../guide/">Guide</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">hookah</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li><li>Hookah lib.sh</li>
+    <li class="wy-breadcrumbs-aside">
+        <a href="https://github.com/hyperupcall/hookah/edit/main/docs/api.md"
+          class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="hookah-libsh">Hookah lib.sh</h1>
+<p>Hookah: An elegantly minimal solution for Git hooks</p>
+<h2 id="overview">Overview</h2>
+<p>Hookah streamlines the process of managing Git hooks. This file is a
+library of functions that can easily be used by hooks written in Bash. Use it by
+prepending your hook script with the following</p>
+<pre><code class="language-bash">#!/usr/bin/env bash
+
+source &quot;${0%/*}/.hookah/lib.sh&quot;
+hookah.init
+</code></pre>
+<p>Learn more about it <a href="https://github.com/hyperupcall/hookah">on GitHub</a></p>
+<h2 id="index">Index</h2>
+<ul>
+<li><a href="#hookahinit">hookah.init()</a></li>
+<li><a href="#hookahrun">hookah.run()</a></li>
+<li><a href="#hookahrun_allow_fail">hookah.run_allow_fail()</a></li>
+<li><a href="#hookahdie">hookah.die()</a></li>
+<li><a href="#hookahwarn">hookah.warn()</a></li>
+<li><a href="#hookahinfo">hookah.info()</a></li>
+<li><a href="#hookahis_ci">hookah.is_ci()</a></li>
+</ul>
+<h3 id="hookahinit">hookah.init()</h3>
+<p>Initiates the environment, sets up stacktrace printing on the 'ERR' trap,
+and sets the directory to the root of the Git repository</p>
+<p><em>Function has no arguments.</em></p>
+<h3 id="hookahrun">hookah.run()</h3>
+<p>Prints a command before running it</p>
+<h4 id="arguments">Arguments</h4>
+<ul>
+<li><strong>...</strong> (Command): to execute</li>
+</ul>
+<h3 id="hookahrun_allow_fail">hookah.run_allow_fail()</h3>
+<p>Prints a command before running it. But, if the command fails, do not abort execution</p>
+<h4 id="arguments_1">Arguments</h4>
+<ul>
+<li><strong>...</strong> (Command): to execute</li>
+</ul>
+<h3 id="hookahdie">hookah.die()</h3>
+<p>Prints <code>$1</code> formatted as an error and the stacktrace to standard error,
+then exits with code 1</p>
+<h4 id="arguments_2">Arguments</h4>
+<ul>
+<li><strong>$1</strong> (string): Text to print</li>
+</ul>
+<h3 id="hookahwarn">hookah.warn()</h3>
+<p>Prints <code>$1</code> formatted as a warning to standard error</p>
+<h4 id="arguments_3">Arguments</h4>
+<ul>
+<li><strong>$1</strong> (string): Text to print</li>
+</ul>
+<h3 id="hookahinfo">hookah.info()</h3>
+<p>Prints <code>$1</code> formatted as information to standard output</p>
+<h4 id="arguments_4">Arguments</h4>
+<ul>
+<li><strong>$1</strong> (string): Text to print</li>
+</ul>
+<h3 id="hookahis_ci">hookah.is_ci()</h3>
+<p>Scans environment variables to determine if script is in a CI environment</p>
+<h4 id="variables-set">Variables set</h4>
+<ul>
+<li><strong>REPLY</strong> (Current): provider for CI</li>
+</ul>
+<h4 id="exit-codes">Exit codes</h4>
+<ul>
+<li><strong>0</strong>: If in CI</li>
+<li><strong>1</strong>: If not in CI</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href=".." class="btn btn-neutral float-left" title="Hookah"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../guide/" class="btn btn-neutral float-right" title="Guide">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+      <p>© Edwin Kofler</p>
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/hyperupcall/hookah" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../guide/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
