@@ -2,7 +2,7 @@
 type = 'bash'
 name = 'hookah'
 slug = 'hookah'
-version = '1.1.0'
+version = '1.1.1'
 authors = ['Edwin Kofler <edwin@kofler.dev>']
 description = 'An elegantly minimal solution for Git hooks'
 
