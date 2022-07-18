@@ -8,7 +8,7 @@ print.die() {
 }
 
 print.error() {
-	if std.should_output_color; then
+	if std.should_print_color_stderr; then
 		printf "\033[1;31m\033[1mHookah \033[1m[error]:\033[0m %s\n" "$1"
 	else
 		printf "Hookah [error]: %s\n" "$1"
@@ -16,7 +16,7 @@ print.error() {
 } >&2
 
 print.warn() {
-	if std.should_output_color; then
+	if std.should_print_color_stderr; then
 		printf "\033[1;33m\033[1mHookah \033[1m[warn]:\033[0m %s\n" "$1"
 	else
 		printf "Hookah [warn]: %s\n" "$1"
@@ -24,7 +24,7 @@ print.warn() {
 } >&2
 
 print.info() {
-	if std.should_output_color; then
+	if std.should_print_color_stdout; then
 		printf "\033[0;36m\033[1mHookah \033[1m[info]:\033[0m %s\n" "$1"
 	else
 		printf "Hookah [info]: %s\n" "$1"
@@ -32,7 +32,7 @@ print.info() {
 }
 
 print.exec() {
-	if std.should_output_color; then
+	if std.should_print_color_stdout; then
 		printf "\033[1mHookah \033[1m[exec]:\033[0m %s\n" "$*"
 	else
 		printf "Hookah [exec]: %s\n" "$*"
