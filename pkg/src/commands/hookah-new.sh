@@ -1,7 +1,7 @@
 # shellcheck shell=bash
 
 hookah-new() {
-	local hook_name="$1"
+	local hook_name_user="$1"
 
 	local -r hooks_dir='./.hooks'
 	local -r hookah_dir="$hooks_dir/.hookah"
@@ -14,215 +14,222 @@ hookah-new() {
 		print.die "Hookah directory does not exist. Did you forget to run 'hookah init'?"
 	fi
 
-	term.hyperlink 'pre-commit' 'https://git-scm.com/docs/githooks#_pre_commit'
-	local pre_commit="$REPLY"
+	###########################################################33
+	local data=(
+		START 'pre-commit'
+		'https://git-scm.com/docs/githooks#_pre_commit'
+		'|COMMIT'
+		"- Invoked by 'git commit'
+- Runs before obtaining commit message
+- Non-zero exit aborts action
+- Bypassible with '--no-verify'"
 
-	term.hyperlink 'pre-merge-commit' 'https://git-scm.com/docs/githooks#_pre_merge_commit'
-	local pre_merge_commit="$REPLY"
+		START 'pre-merge-commit'
+		'https://git-scm.com/docs/githooks#_pre_merge_commit'
+		'|COMMIT'
+		"- Invoked by 'git merge'
+- Runs after the merge and before obtaining commit message
+- Non-zero exit aborts action
+- Bypassible with '--no-verify'
+- May run 'pre-commit' hook"
 
-	term.hyperlink 'pre-merge-commit' 'https://git-scm.com/docs/githooks#_prepare_commit_msg'
-	local prepare_commit_msg="$REPLY"
+		START 'pre-merge-commit'
+		'https://git-scm.com/docs/githooks#_prepare_commit_msg'
+		'|COMMIT'
+		"- Invoked by 'git commit'
+- Runs after preparing the default log message and before the editor is started
+- Non-zero exit aborts action
+- Bypassible with '--no-verify'
+- Parameter of '\$1' is name of file holding the commit message"
 
-	term.hyperlink 'commit-msg' 'https://git-scm.com/docs/githooks#_commit_msg'
-	local commit_msg="$REPLY"
+		START 'commit-msg'
+		'https://git-scm.com/docs/githooks#_commit_msg'
+		'|COMMIT'
+		"- Invoked by 'git commit' and 'git merge'
+- Bypassible with '--no-verify'
+- If exits non-zero, aborts commit process
+- Parameter of '\$1' is name of file holding the commit message"
 
-	term.hyperlink 'post-commit' 'https://git-scm.com/docs/githooks#_post_commit'
-	local post_commit="$REPLY"
+		START 'post-commit'
+		'https://git-scm.com/docs/githooks#_post_commit'
+		'|COMMIT'
+		"- Invoked by 'git commit'
+- Runs after a commit is made"
 
-	term.hyperlink 'applypatch-msg' 'https://git-scm.com/docs/githooks#_applypatch_msg'
-	local applypatch_msg="$REPLY"
 
-	term.hyperlink 'pre-applypatch' 'https://git-scm.com/docs/githooks#_pre_applypatch'
-	local pre_applypatch="$REPLY"
+		START 'applypatch-msg'
+		'https://git-scm.com/docs/githooks#_applypatch_msg'
+		'|EMAIL'
+		"- Runs before patch is applied and before commit is made
+- May run 'commit-msg' hook
+- Non-zero exit aborts action
+- Parameter of '\$1' is name of file holding the commit message"
 
-	term.hyperlink 'post-applypatch' 'https://git-scm.com/docs/githooks#_post_applypatch'
-	local post_applypatch="$REPLY"
+		START 'pre-applypatch'
+		'https://git-scm.com/docs/githooks#_pre_applypatch'
+		'|EMAIL'
+		"- Runs after patch is applied and before commit is made
+- May run 'pre-commit' hooks"
 
-	term.hyperlink 'pre-rebase' 'https://git-scm.com/docs/githooks#_pre_rebase'
-	local pre_rebase="$REPLY"
+		START 'post-applypatch'
+		'https://git-scm.com/docs/githooks#_post_applypatch'
+		'|EMAIL'
+		"- Runs after patch is applied and after commit is made"
 
-	term.hyperlink 'post-checkout' 'https://git-scm.com/docs/githooks#_post_checkout'
-	local post_checkout="$REPLY"
 
-	term.hyperlink 'post-merge' 'https://git-scm.com/docs/githooks#_post_merge'
-	local post_merge="$REPLY"
+		START 'pre-rebase'
+		'https://git-scm.com/docs/githooks#_pre_rebase'
+		'|MISC'
+		"- Invoked by 'git rebase'
+- Parameter of '\$1' is the upstream from which series was forked
+- Parameters of '\$2' is name of branch being rebased"
 
-	term.hyperlink 'pre-push' 'https://git-scm.com/docs/githooks#_pre_push'
-	local pre_push="$REPLY"
+		START 'post-checkout'
+		'https://git-scm.com/docs/githooks#_post_checkout'
+		'|MISC'
+		"- Invoked by 'git checkout' or 'git switch'
+- Runs after worktree is updated
+- Parameter of '\$1' is the ref of the previous HEAD
+- Parameter of '\$2' is the ref of the new HEAD
+- Parameter of '\$2' is a flag indicating a branch or file checkout
+- Exit code is reflected by invocation of the Git subcommand"
 
-	term.hyperlink 'pre-receive' 'https://git-scm.com/docs/githooks#_pre_receive'
-	local pre_receive="$REPLY"
+		START 'post-merge'
+		'https://git-scm.com/docs/githooks#_post_merge'
+		'|MISC'
+		"- Invoked by 'git merge'
+- Runs when a 'git pull' is done a local repository
+- Parameter of '\$1' is a flag specifying if merge was a sqauash merge"
 
-	term.hyperlink 'update' 'https://git-scm.com/docs/githooks#_update'
-	local update="$REPLY"
+		START 'pre-push'
+		'https://git-scm.com/docs/githooks#_pre_push'
+		'|MISC'
+		"- Invoked by 'git push'"
 
-	term.hyperlink 'proc-receive' 'https://git-scm.com/docs/githooks#_proc_receive'
-	local proc_receive="$REPLY"
+		START 'pre-receive'
+		'https://git-scm.com/docs/githooks#_pre_receive'
+		'|MISC'
+		"- Invoked by 'git receive-pack'"
 
-	term.hyperlink 'post-update' 'https://git-scm.com/docs/githooks#_post_update'
-	local post_update="$REPLY"
+		START 'update'
+		'https://git-scm.com/docs/githooks#_update'
+		'|MISC'
+		"- Invoked by 'git receive-pack'"
 
-	term.hyperlink 'reference-transaction' 'https://git-scm.com/docs/githooks#_reference_transaction'
-	local reference_transaction="$REPLY"
+		START 'proc-receive'
+		'https://git-scm.com/docs/githooks#_proc_receive'
+		'|MISC'
+		"- Invoked by 'git receive-pack'"
 
-	term.hyperlink 'push-to-checkout' 'https://git-scm.com/docs/githooks#_push_to_checkout'
-	local push_to_checkout="$REPLY"
+		START 'post-update'
+		'https://git-scm.com/docs/githooks#_post_update'
+		'|MISC'
+		"- Invoked by 'git receive-pack'"
 
-	term.hyperlink 'pre-auto-gc' 'https://git-scm.com/docs/githooks#_pre_auto_gc'
-	local pre_auto_gc="$REPLY"
+		START 'reference-transaction'
+		'https://git-scm.com/docs/githooks#_reference_transaction'
+		'|MISC'
+		"- Invoked by 'git receive-pack'"
 
-	term.hyperlink 'post-rewrite' 'https://git-scm.com/docs/githooks#_post_rewrite'
-	local post_rewrite="$REPLY"
+		START 'push-to-checkout'
+		'https://git-scm.com/docs/githooks#_push_to_checkout'
+		'|MISC'
+		"- Invoked by 'git receive-pack'"
 
-	term.hyperlink 'sendemail-validate' 'https://git-scm.com/docs/githooks#_sendemail_validate'
-	local sendemail_validate="$REPLY"
+		START 'pre-auto-gc'
+		'https://git-scm.com/docs/githooks#_pre_auto_gc'
+		'|MISC'
+		"- Invoked by 'git gc --auto'"
 
-	term.hyperlink 'fsmonitor-watchman' 'https://git-scm.com/docs/githooks#_fsmonitor_watchman'
-	local fsmonitor_watchman="$REPLY"
+		START 'post-rewrite'
+		'https://git-scm.com/docs/githooks#_post_rewrite'
+		'|MISC'
+		"- Invoked by commands that rewrite commits"
 
-	term.hyperlink 'p4-changelist' 'https://git-scm.com/docs/githooks#_p4_changelist'
-	local p4_changelist="$REPLY"
+		START 'sendemail-validate'
+		'https://git-scm.com/docs/githooks#_sendemail_validate'
+		'|MISC'
+		"- Invoked by 'git send-email'"
 
-	term.hyperlink 'p4-prepare-changelist' 'https://git-scm.com/docs/githooks#_p4_prepare_changelist'
-	local p4_prepare_changelist="$REPLY"
+		START 'fsmonitor-watchman'
+		'https://git-scm.com/docs/githooks#_fsmonitor_watchman'
+		'|MISC'
+		"- Two versions"
 
-	term.hyperlink 'p4-post-changelist' 'https://git-scm.com/docs/githooks#_p4_post_changelist'
-	local p4_post_changelist="$REPLY"
+		START 'p4-changelist'
+		'https://git-scm.com/docs/githooks#_p4_changelist'
+		'|MISC'
+		"- Invoked by 'git-p4 submit'"
 
-	term.hyperlink 'p4-pre-submit' 'https://git-scm.com/docs/githooks#_p4_pre_submit'
-	local p4_pre_submit="$REPLY"
+		START 'p4-prepare-changelist'
+		'https://git-scm.com/docs/githooks#_p4_prepare_changelist'
+		'|MISC'
+		"- Invoked by 'git-p4 submit'"
 
-	term.hyperlink 'post-index-change' 'https://git-scm.com/docs/githooks#_post_index_change'
-	local post_index_change="$REPLY"
+		START 'p4-post-changelist'
+		'https://git-scm.com/docs/githooks#_p4_post_changelist'
+		'|MISC'
+		"- Invoked by 'git-p4 submit'"
 
-	local -r hook_info="COMMIT HOOKS
-$pre_commit
-  - Invoked by 'git commit'
-  - Runs before obtaining commit message
-  - Non-zero exit aborts action
-  - Bypassible with '--no-verify'
-$pre_merge_commit
-  - Invoked by 'git merge'
-  - Runs after the merge and before obtaining commit message
-  - Non-zero exit aborts action
-  - Bypassible with '--no-verify'
-  - May run 'pre-commit' hook
-$prepare_commit_msg
-  - Invoked by 'git commit'
-  - Runs after preparing the default log message and before the editor is started
-  - Non-zero exit aborts action
-  - Bypassible with '--no-verify'
-  - Parameter of '\$1' is name of file holding the commit message
-$commit_msg
-  - Invoked by 'git commit' and 'git merge'
-  - Bypassible with '--no-verify'
-  - If exits non-zero, aborts commit process
-  - Parameter of '\$1' is name of file holding the commit message
-$post_commit
-  - Invoked by 'git commit'
-  - Runs after a commit is made
+		START 'p4-pre-submit'
+		'https://git-scm.com/docs/githooks#_p4_pre_submit'
+		'|MISC'
+		"- Invoked by 'git-p4 submit'"
 
-EMAIL HOOKS
-  - Invoked by 'git am'
-$applypatch_msg
-  - Runs before patch is applied and before commit is made
-  - May run 'commit-msg' hook
-  - Non-zero exit aborts action
-  - Parameter of '\$1' is name of file holding the commit message
-$pre_applypatch
-  - Runs after patch is applied and before commit is made
-  - May run 'pre-commit' hooks
-$post_applypatch
-  - Runs after patch is applied and after commit is made
+		START 'post-index-change'
+		'https://git-scm.com/docs/githooks#_post_index_change'
+		'|MISC'
+		"- Invoked after index is written in 'read-cache.c'"
+	)
 
-MISCELLANEOUS HOOKS
-$pre_rebase
-  - Invoked by 'git rebase'
-  - Parameter of '\$1' is the upstream from which series was forked
-  - Parameters of '\$2' is name of branch being rebased
-$post_checkout
-  - Invoked by 'git checkout' or 'git switch'
-  - Runs after worktree is updated
-  - Parameter of '\$1' is the ref of the previous HEAD
-  - Parameter of '\$2' is the ref of the new HEAD
-  - Parameter of '\$2' is a flag indicating a branch or file checkout
-  - Exit code is reflected by invocation of the Git subcommand
-$post_merge
-  - Invoked by 'git merge'
-  - Runs when a 'git pull' is done a local repository
-  - Parameter of '\$1' is a flag specifying if merge was a sqauash merge
-$pre_push
-  - Invoked by 'git push'
-$pre_receive
-  - Invoked by 'git receive-pack'
-$update
-  - Invoked by 'git receive-pack'
-$proc_receive
-  - Invoked by 'git receive-pack'
-$post_update
-  - Invoked by 'git receive-pack'
-$reference_transaction
-  - Invoked by 'git receive-pack'
-$push_to_checkout
-  - Invoked by 'git receive-pack'
-$pre_auto_gc
-  - Invoked by 'git gc --auto'
-$post_rewrite
-  - Invoked by commands that rewrite commits
-$sendemail_validate
-  - Invoked by 'git send-email'
-$fsmonitor_watchman
-  - Two versions
-$p4_changelist
-  - Invoked by 'git-p4 submit'
-$p4_prepare_changelist
-  - Invoked by 'git-p4 submit'
-$p4_post_changelist
-  - Invoked by 'git-p4 submit'
-$p4_pre_submit
-  - Invoked by 'git-p4 submit'
-$post_index_change
-  - Invoked after index is written in 'read-cache.c'"
+	local -i i
+	for ((i = 0; i < ${#data[@]}; i = i + 5)); do
+		local word="${data[i]}"
+		local hook_name="${data[i+1]}"
+		local hook_url="${data[i+2]}"
+		local hook_tags="${data[i+3]}"
+		local hook_info="${data[i+4]}"
 
-	local -a hook_list=()
-	local line=
-	while IFS= read -r line; do
-		if [[ $line == *@( |HOOKS)* ]]; then
+		term.hyperlink "$hook_name" "$hook_url"
+		local hook_name_with_link="$REPLY"
+
+		if [ "$hook_tags" != '|COMMIT' ]; then
 			continue
 		fi
 
-		hook_list+=("$line")
-	done <<< "$hook_info"; unset -v line
+		printf '%i: %s\n' $((i / 5 + 1)) "$hook_name_with_link"
+	done; unset -v i
 
-	if [ -z "$hook_name" ]; then
-		printf '%s\n' "$hook_info"
+	if [ -z "$hook_name_user" ]; then
 		printf '%s' 'Choose: '
-		read -re hook_name
+		read -re hook_name_user
 	fi
 
-	if [ -z "$hook_name" ]; then
+	if [ -z "$hook_name_user" ]; then
 		print.die "Name of hook cannot be empty"
 	fi
 
-	local is_valid_hook='no' valid_hook_name=
-	echo a"$hook_name"a
-	for valid_hook_name in "${hook_list[@]}"; do
-		echo a"$valid_hook_name"a = a"$hook_name"a
-		if [ "$valid_hook_name" = "$hook_name" ]; then
-			is_valid_hook='yes'
-			break
-		fi
-	done; unset -v valid_hook_name
-	# TODO: broken???
-	# if [ "$is_valid_hook" != 'yes' ]; then
-	# 	print.die "Did not enter valid commit hook"
-	# fi
+	local is_valid_hook='no'
+	local -i hook_index='-1'
+	local i
+	for ((i = 0; i < ${#data[@]}; i = i + 5)); do
+		local hook_name="${data[i+1]}"
 
-	if [ -f "$hooks_dir/$hook_name" ]; then
+		if [ "$hook_name" = "$hook_name_user" ]; then
+			is_valid_hook='yes'
+			hook_index=i
+		fi
+	done; unset -v i
+
+	if [ "$is_valid_hook" = 'no' ]; then
+		print.die "Did not enter valid commit hook"
+	fi
+
+	if [ -f "$hooks_dir/$hook_name_user" ]; then
 		print.die "Hook already exists. Not overriding"
 	fi
 
-	if ! cat > "$hooks_dir/$hook_name" <<-"EOF"; then
+	if ! cat > "$hooks_dir/$hook_name_user" <<-"EOF"; then
 	#!/usr/bin/env bash
 
 	source "${0%/*}/.hookah/lib.sh"
@@ -232,7 +239,7 @@ $post_index_change
 		print.die "Failed to create new hook file"
 	fi
 
-	if ! chmod +x "$hooks_dir/$hook_name"; then
+	if ! chmod +x "$hooks_dir/$hook_name_user"; then
 		print.die "Failed to chmod new hook file"
 	fi
 }

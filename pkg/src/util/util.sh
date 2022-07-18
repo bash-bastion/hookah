@@ -37,14 +37,6 @@ util.run() {
 	fi
 }
 
-util.should_print_color() {
-	if [[ -v NO_COLOR || $TERM == dumb ]]; then
-		return 1
-	else
-		return 0
-	fi
-}
-
 util.show_help() {
 	cat <<"EOF"
 Usage:
