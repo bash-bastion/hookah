@@ -30,11 +30,28 @@ util.read_line_n() {
 }
 
 util.run() {
-	print.exec "$*"
+	util.print_exec "$*"
 
 	if "$@"; then :; else
 		return $?
 	fi
+}
+
+util.print_die() {
+	std.fprint_error 'hookah' "$1. Exiting"
+	exit 1
+}
+
+util.print_exec() {
+	if std.should_print_color_stdout; then
+		printf "\033[1mHookah \033[1m[exec]:\033[0m %s\n" "$*"
+	else
+		printf "Hookah [exec]: %s\n" "$*"
+	fi
+}
+
+util.print_hint() {
+	printf '%s\n' "  -> $1"
 }
 
 util.show_help() {

@@ -7,11 +7,11 @@ hookah-new() {
 	local -r hookah_dir="$hooks_dir/.hookah"
 
 	if ! util.cd_to_closest_git_repo; then
-		print.die "Failed to 'cd' to closest Git repository"
+		util.print_die "Failed to 'cd' to closest Git repository"
 	fi
 
 	if [ ! -d "$hookah_dir" ]; then
-		print.die "Hookah directory does not exist. Did you forget to run 'hookah init'?"
+		util.print_die "Hookah directory does not exist. Did you forget to run 'hookah init'?"
 	fi
 
 	###########################################################33
@@ -206,7 +206,7 @@ hookah-new() {
 	fi
 
 	if [ -z "$hook_name_user" ]; then
-		print.die "Name of hook cannot be empty"
+		util.print_die "Name of hook cannot be empty"
 	fi
 
 	local is_valid_hook='no'
@@ -222,11 +222,11 @@ hookah-new() {
 	done; unset -v i
 
 	if [ "$is_valid_hook" = 'no' ]; then
-		print.die "Did not enter valid commit hook"
+		util.print_die "Did not enter valid commit hook"
 	fi
 
 	if [ -f "$hooks_dir/$hook_name_user" ]; then
-		print.die "Hook already exists. Not overriding"
+		util.print_die "Hook already exists. Not overriding"
 	fi
 
 	if ! cat > "$hooks_dir/$hook_name_user" <<-"EOF"; then
@@ -236,10 +236,10 @@ hookah-new() {
 	hookah.init
 
 	EOF
-		print.die "Failed to create new hook file"
+		util.print_die "Failed to create new hook file"
 	fi
 
 	if ! chmod +x "$hooks_dir/$hook_name_user"; then
-		print.die "Failed to chmod new hook file"
+		util.print_die "Failed to chmod new hook file"
 	fi
 }
