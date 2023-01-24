@@ -21,15 +21,15 @@ main.hookah() {
 	local subcommand="$1"
 	case $subcommand in
 	refresh)
-		if ! shift; then util.print_die 'Failed shift'; fi
+		if ! shift; then util.print_die 'Failed to shift'; fi
 		hookah-refresh "$@"
 		;;
 	new)
-		if ! shift; then util.print_die 'Failed shift'; fi
+		if ! shift; then util.print_die 'Failed to shift'; fi
 		hookah-new "$@"
 		;;
 	check)
-		if ! shift; then util.print_die 'Failed shift'; fi
+		if ! shift; then util.print_die 'Failed to shift'; fi
 		hookah-check "$@"
 		;;
 	*)
