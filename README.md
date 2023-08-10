@@ -1,3 +1,6 @@
+> **Warning**
+> **No longer in development. I use [lefthook](https://github.com/evilmartians/lefthook) now.**
+
 # hookah
 
 An elegantly minimal solution for Git hooks
